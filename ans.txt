@@ -1,0 +1,230 @@
+half checksum:   43bd
+whole checksum:      0
+
+checksum verify(have to ffff): c450
+calc half checksum of encrypted: effb
+
+#lqfoxgh <xqlvwg.k>
+dhalf checksum:    4cc
+whole checksum:      0
+
+checksum verify(have to ffff): effb
+calc half checksum of encrypted: effb
+
+#lqfoxgh <xqlvwg.k>
+dhalf checksum:   f654
+whole checksum:      0
+
+checksum verify(have to ffff): c94c
+calc half checksum of encrypted: ecfd
+
+#lqfoxgh <vbv/wbshv.k>half checksum:   b8c9
+whole checksum:      0
+
+checksum verify(have to ffff): eff3
+calc half checksum of encrypted: eff3
+
+#lqfoxgh <vbv/wbshv.k>half checksum:   b2c3
+whole checksum:      0
+
+checksum verify(have to ffff): f5bd
+calc half checksum of encrypted: edfd
+
+#lqfoxgh <vbv/vwdw..k>half checksum:   44bc
+whole checksum:      0
+
+checksum verify(have to ffff): b288
+calc half checksum of encrypted: b292
+
+#lqfoxgh <vbv/vwdw..k>half checksum:   46cf
+whole checksum:      0
+
+checksum verify(have to ffff): 4a56
+calc half checksum of encrypted: f10a
+
+#lqfoxgh <ifqwo.k>
+half checksum:   b62f
+whole checksum:      0
+
+checksum verify(have to ffff): 504f
+calc half checksum of encrypted: f0fd
+
+#lqfoxgh <vwglr.k>
+half checksum:   f2f5
+whole checksum:      0
+
+checksum verify(have to ffff): f3f3
+calc half checksum of encrypted: f3f3
+
+#lqfoxgh <vwglr.k>
+half checksum:   6119
+whole checksum:      0
+
+checksum verify(have to ffff): c353
+calc half checksum of encrypted: effd
+
+#lqfoxgh <vwglr.k>
+half checksum:   e784
+whole checksum:      0
+
+checksum verify(have to ffff): 285e
+calc half checksum of encrypted: 99ca
+
+
+half checksum:   5349
+whole checksum:      0
+
+checksum verify(have to ffff): c140
+calc half checksum of encrypted: effd
+
+#lqfoxgh <vwglr.k>
+half checksum:   b5af
+whole checksum:      0
+
+checksum verify(have to ffff): 3b60
+calc half checksum of encrypted: a7cf
+
+
+half checksum:   8243
+whole checksum:      0
+
+checksum verify(have to ffff): 50d9
+calc half checksum of encrypted: f1f9
+
+#lqfoxgh <zdllr.k>
+half checksum:   75ec
+whole checksum:      0
+
+checksum verify(have to ffff): 880d
+calc half checksum of encrypted: c678
+
+#lqfoxgh <zdllr.k>
+half checksum:   44c4
+whole checksum:      0
+
+checksum verify(have to ffff): 9086
+calc half checksum of encrypted: 837c
+
+
+half checksum:   f2f5
+whole checksum:      0
+
+checksum verify(have to ffff): 9a86
+calc half checksum of encrypted: 820b
+
+{half checksum:   dde5
+whole checksum:      0
+
+checksum verify(have to ffff): 3b00
+calc half checksum of encrypted: 3e00
+
+half checksum:   73ec
+whole checksum:      0
+
+checksum verify(have to ffff): 584f
+calc half checksum of encrypted: 9252
+
+	lfkdu exi;
+half checksum:   2692
+whole checksum:      0
+
+checksum verify(have to ffff): 395
+calc half checksum of encrypted: 7008
+
+0)
+half checksum:   75ec
+whole checksum:      0
+
+checksum verify(have to ffff): 251
+calc half checksum of encrypted: 783d
+
+	{
+half checksum:   fd98
+whole checksum:      0
+
+checksum verify(have to ffff): 212e
+calc half checksum of encrypted: 7731
+
+Q		sulqwi("l'p sduuhqw, suhvv hqwhu wr);
+half checksum:   6e42
+whole checksum:      0
+
+checksum verify(have to ffff): be4e
+calc half checksum of encrypted: 33b7
+
+wh, fklog ig'p sduuhqw, suhvv hqwhu wr);
+half checksum:   a778
+whole checksum:      0
+
+checksum verify(have to ffff): a491
+calc half checksum of encrypted: bb7
+
+ slg);
+half checksum:   d563
+whole checksum:      0
+
+checksum verify(have to ffff): 3c90
+calc half checksum of encrypted: 2f86
+
+
+half checksum:   73ec
+whole checksum:      0
+
+checksum verify(have to ffff): ee62
+calc half checksum of encrypted: fe7d
+
+		ug);
+half checksum:    b25
+whole checksum:      0
+
+checksum verify(have to ffff): 3a2e
+calc half checksum of encrypted: 6295
+
+q_iloh
+half checksum:   75ec
+whole checksum:      0
+
+checksum verify(have to ffff): 88d7
+calc half checksum of encrypted: a903
+
+, vloh
+half checksum:   5e46
+whole checksum:      0
+
+checksum verify(have to ffff): add3
+calc half checksum of encrypted: 203c
+
+i));
+half checksum:   86cc
+whole checksum:      0
+
+checksum verify(have to ffff): ed97
+calc half checksum of encrypted: 51e
+
+	hovh li(slhalf checksum:   73ec
+whole checksum:      0
+
+checksum verify(have to ffff): f4a5
+calc half checksum of encrypted: 31e3
+
+half checksum:   f2f5
+whole checksum:      0
+
+checksum verify(have to ffff): 8f93
+calc half checksum of encrypted: 8f93
+
+
+half checksum:   3473
+whole checksum:      0
+
+checksum verify(have to ffff): 907f
+calc half checksum of encrypted: 907f
+
+
+half checksum:   e782
+whole checksum:      0
+
+checksum verify(have to ffff): 781e
+calc half checksum of encrypted: 518a
+
+		vh li(sl
