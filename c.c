@@ -32,6 +32,10 @@ int main(int argc, char **argv){
 	s_addr.sin_addr.s_addr=inet_addr("143.248.56.16");
 	s_addr.sin_family=AF_INET;
 	s_addr.sin_port=htons(3000);
+	s_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
+	s_addr.sin_family=AF_INET;
+	s_addr.sin_port=htons(atoi(argv[1]));
+
 
 	if ( connect(c_sock, (struct sockaddr *)&s_addr, sizeof(s_addr)) <0 ){
 		close(c_sock);
@@ -118,7 +122,7 @@ int main(int argc, char **argv){
 //		}
 
 		printf("%s", buf+8);
-
+		free(msg);
 	}
 
 

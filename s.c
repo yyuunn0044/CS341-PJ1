@@ -8,6 +8,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+unsigned short verify_checksum(){
+	return 0xffff;
+}
+
+unsigned short calc_checksum(unsigned size, const char *buf);
+void data_processing(unsigned char op, unsigned char shift, 
+						unsigned int length, char * src, char * dst);
 
 int main(int argc, char **argv)
 {
@@ -22,17 +30,21 @@ int main(int argc, char **argv)
 	struct sockaddr_in c_addr;
 	FILE *fp;
 
-	char buf[5000];
-	char filename[255];
+	char *input_msg;
+	char *msg;
+	char data[255];
 	char path[255];
 
 
 	int i=0;
-	DIR *dp;
-	struct dirent *dir;
+	unsigned char op=0;
+	unsigned char shift=0;
+	unsigned short checksum=0;
+	unsigned int length=0;
+	unsigned int newlen=0;
+	
 
-
-//	client_len=sizeof(clientaddr);
+	client_len=sizeof(c_addr);
 //	if (argc>1){
 //		printf("============Server need not argument, Anyway..\n");  //fs_server gave argument?
 //	}
@@ -57,9 +69,6 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-
-
-
 	state = listen(s_sock, 30);               //wait approach from client socket
 	if (state == -1){
 		printf("============Listen Error\n");
@@ -73,21 +82,60 @@ int main(int argc, char **argv)
 		printf("============Accept Error\n");
 		exit(0);
 	}
+	input_msg=calloc(10*1000*1000, sizeof(char));
 
-
-
-	while(i<4){
-		memset(buf, 0, 4096);
-		if (read(c_sock, buf, 4096) <= 0){
-			exit(0);
-		}
-		printf("%s",buf);
-		i++;
+while(1){
+	if (recv(c_sock, input_msg, 10*1000*1000, 0) <= 0){
+		printf("server read fail\n");
+		break;
+		free(input_msg);
+		exit(0);
 	}
 
+	
+//	if (verify_checksum()){
+//		printf("server checksum error!!\n");
+//		free(input_msg);
+//		exit(0);
+//	}
+	
+	while(i<8){ printf("%x ", input_msg[i]); i++;} printf("\n");
 
+	while(i<16){ printf("%x ", input_msg[i]); i++;} printf("\n");
 
+	while(i<24){ printf("%x ", input_msg[i]); i++;} printf("\n");
 
+	while(i<32){ printf("%x ", input_msg[i]); i++;} printf("\n");
+
+	while(i<40){ printf("%x ", input_msg[i]); i++;} printf("\n");
+
+	while(i<48){ printf("%x ", input_msg[i]); i++;} printf("\n");
+
+	while(i<56){ printf("%x ", input_msg[i]); i++;} printf("\n");
+
+	while(i<64){ printf("%x ", input_msg[i]); i++;} printf("\n");
+
+	msg=calloc(10*1000*1000,sizeof(char));
+	
+	memcpy(&op, input_msg, 1);
+	memcpy(&shift, input_msg+1, 1);
+	memcpy(&newlen, input_msg+4, 4);
+	length=ntohl(newlen);
+	
+	data_processing(op, shift, length, input_msg+8, msg+8);
+	
+	memcpy(msg, &op, 1);
+	memcpy(msg+1, &shift, 1);
+	memcpy(msg+4, &length, 4);
+//	memcpy(msg+8, input_msg+8, length); //data
+	checksum=calc_checksum(length, msg);
+	memcpy(msg+2, &checksum, 2);  //checksum
+
+	write(c_sock, msg, length);
+
+}
+	free(msg);
+	free(input_msg);
 
 /*
 	
@@ -231,4 +279,91 @@ int main(int argc, char **argv)
 	exit(0);
 }
 
+void data_processing
+(unsigned char op, unsigned char shift_, unsigned int length, char * src, char * dst){
+	int i=0;
+	short shift = shift_%26;
+	short tmp = 0;
+	printf("op: %d\n", op);
+	printf("shift: %d\n", shift);
 
+	printf("length: %d\n", length);
+
+	printf("src: %c\n", src);
+
+		
+	
+	if(op)
+		shift=-shift;
+
+	for(i=0;i<length-8;i++){
+		tmp = (short)src[i];
+		if (tmp>64 && tmp<91) tmp+=32;
+		if (tmp>96 && tmp<123){
+			tmp+=shift;
+			if (tmp<=96) tmp+=26;
+			else if (src[i]>=123) tmp-=26;
+			
+		}
+		dst[i] = tmp;
+		printf("%d, %d\n", src[i], dst[i]);
+	}
+}
+
+
+
+
+unsigned short calc_checksum(unsigned size, const char *buf)
+{
+	unsigned long long sum = 0;
+	const unsigned long long *b = (unsigned long long *) buf;
+
+	unsigned t1, t2;
+	unsigned short t3, t4;
+
+	/* Main loop - 8 bytes at a time */
+	while (size >= sizeof(unsigned long long))
+	{
+		unsigned long long s = *b++;
+		sum += s;
+		if (sum < s) sum++;
+		size -= 8;
+	}
+
+	/* Handle tail less than 8-bytes long */
+	buf = (const char *) b;
+	if (size & 4)
+	{
+		unsigned s = *(unsigned *)buf;
+		sum += s;
+		if (sum < s) sum++;
+		buf += 4;
+	}
+
+	if (size & 2)
+	{
+		unsigned short s = *(unsigned short *) buf;
+		sum += s;
+		if (sum < s) sum++;
+		buf += 2;
+	}
+
+	if (size)
+	{
+		unsigned char s = *(unsigned char *) buf;
+		sum += s;
+		if (sum < s) sum++;
+	}
+
+	/* Fold down to 16 bits */
+	t1 = sum;
+	t2 = sum >> 32;
+	t1 += t2;
+	if (t1 < t2) t1++;
+	t3 = t1;
+	t4 = t1 >> 16;
+	t3 += t4;
+	if (t3 < t4) t3++;
+
+	return ~t3;
+}
