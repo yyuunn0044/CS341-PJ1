@@ -9,7 +9,6 @@
 #include <string.h>
 
 unsigned short calc_checksum(unsigned length, const char *buf, int verify);
-void print64(char * input_msg);
 
 int main(int argc, char **argv){
 

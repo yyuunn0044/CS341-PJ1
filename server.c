@@ -14,9 +14,6 @@ unsigned short calc_checksum(unsigned size, const char *buf, int verify);
 void data_processing(unsigned char op, unsigned char shift, 
 						unsigned int length, char * src, char * dst);
 
-void print64(char * input_msg);
-
-
 int main(int argc, char **argv)
 {
 	int s_sock;
