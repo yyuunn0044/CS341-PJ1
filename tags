@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+calc_checksum	c.c	/^unsigned short calc_checksum(unsigned length, const char *buf)$/;"	f
+calc_checksum	s.c	/^unsigned short calc_checksum(unsigned size, const char *buf)$/;"	f
+calc_checksum2	c.c	/^unsigned short calc_checksum2(unsigned size, const char *buf)$/;"	f
+data_processing	s.c	/^void data_processing$/;"	f
+main	c.c	/^int main(int argc, char **argv){$/;"	f
+main	fget.c	/^int main(){$/;"	f
+main	s.c	/^int main(int argc, char **argv)$/;"	f
+main	test.c	/^int main(){$/;"	f
+print64	s.c	/^void print64(char * input_msg){$/;"	f
+verify_checksum	s.c	/^unsigned short verify_checksum(){$/;"	f

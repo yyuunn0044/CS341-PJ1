@@ -1,17 +1,21 @@
 #include <stdio.h>
 
 int main(){
-	unsigned short ans=0;
-	char* buf[20];
-	int a=0x221;
-	int i=0;
-	memset(buf, 0, sizeof(buf));
-	printf("a\n");
-	memcpy(buf+4, &a, sizeof(a));
-	printf("b\n");
-	while(i<20){
-		printf("%x", buf[i]);
-		i++;
-	}
+	unsigned x=0;
+	short xs=0;
+	unsigned y=0;
+	unsigned z=0;
+	// <xqlvwg.k>
+	x+=0x3+0x1d+0x236c+0x7166+0x6f78+0x6768;
+	x+=0x203c+0x7871+0x6c76+0x7767+0x2e6b+0x3e0a+1;
+	xs=(short)x;
+	xs=~xs;
+	// <vbv/wbshv.k>
+	z+=0x3+0x20+0x236c+0x7166+0x6f78+0x6768;
+	z+=0x203c+0x7662+0x762f+0x7762+0x7368+30253+27454+0xa00+1;
+	z=~z;
+
+	printf("<xqlvwg.k>: %x\n", xs);
+	printf("<vbv/wbshv.k>: %x\n", z);
 }
 

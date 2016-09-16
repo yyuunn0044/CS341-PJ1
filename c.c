@@ -8,15 +8,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned short calc_checksum(unsigned length, const char *buf);
+unsigned short calc_checksum(unsigned length, const char *buf, int verify);
+void print64(char * input_msg);
 
 int main(int argc, char **argv){
 	int s_sock, c_sock;
 	struct sockaddr_in s_addr;
 	
-	char buf[1009];
-	char *msg;
-	char data[1001];
+	unsigned char buf[1009];
+	unsigned char *msg;
+	unsigned char data[1001];
 	int i=0;
 	unsigned char op=0;
 	unsigned char shift=3;
@@ -24,14 +25,15 @@ int main(int argc, char **argv){
 	unsigned long newlen=0;
 	unsigned short checksum=0;
 
+	int j=0;
 	c_sock=socket(AF_INET, SOCK_STREAM, 0); //make client socket
 	if (c_sock<0){
 		printf("Socket Error\n");
 		exit(0);
 	}
-	s_addr.sin_addr.s_addr=inet_addr("143.248.56.16");
-	s_addr.sin_family=AF_INET;
-	s_addr.sin_port=htons(3000);
+//	s_addr.sin_addr.s_addr=inet_addr("143.248.56.16");
+//	s_addr.sin_family=AF_INET;
+//	s_addr.sin_port=htons(3000);
 	s_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
 	s_addr.sin_family=AF_INET;
 	s_addr.sin_port=htons(atoi(argv[1]));
@@ -50,76 +52,36 @@ int main(int argc, char **argv){
 		memset(msg, 0, sizeof(msg));
 
 		memcpy(msg, &op, 1);
-
-
 		memcpy(msg+1, &shift, 1);
+
 		newlen=htonl(length);
 		memcpy(msg+4, &newlen, 4);
-
 		memcpy(msg+8, data, strlen(data)+1);
 
-		checksum=calc_checksum(length, msg);
-//		printf("half checksum: %6hx\n", checksum);
-
+		checksum=calc_checksum(length, msg, 0);
 		memcpy(msg+2, &checksum, 2);
-/*			while(i<8){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<16){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<24){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<32){ printf("%x ", msg[i]); i++;} printf("\n");
-					
-		while(i<40){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<48){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<56){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		while(i<64){ printf("%x ", msg[i]); i++;} printf("\n");
-		
-		i=0;		
-		
-*/	
-		checksum=calc_checksum(length, msg);
-
-//		printf("whole checksum: %6hx\n", checksum);	
+//		print64(msg);
 		write(c_sock, msg, length);
-		read(c_sock, buf, length);
-	//	recv(c_sock, buf, sizeof(buf), 0);
-/*		while(i<8){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<16){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<24){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<32){ printf("%x ", buf[i]); i++;} printf("\n");
-			while(i<40){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<48){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<56){ printf("%x ", buf[i]); i++;} printf("\n");
-		
-		while(i<64){ printf("%x ", buf[i]); i++;} printf("\n");
-*/	
-		memcpy(&length, buf+4, 4);
-		newlen=ntohl(length);
+		printf("firs\n");
+		j= recv(c_sock, buf, length, 0);
+		printf("how much recv? %x\n", j);
+		printf("after\n");
+//		print64(buf);
 
-		checksum=calc_checksum((unsigned)18, buf);
-//		printf("\nchecksum verify(have to ffff): %x\n", checksum);
-
-		buf[2]=0;
-		buf[3]=0;
-		checksum=calc_checksum(18, buf);
-//		printf("calc half checksum of encrypted: %x\n", checksum);
-
-//printf("\n");
-//		
-//if (~checksum){
-//			printf("checksum error!!!\n");
-//			close(c_sock);
-//			exit(0);
-//		}
+		memcpy(&newlen, buf+4, 4);
+		length=ntohl(newlen);
+printf("len: %x\n", newlen);
+//		printf("---msg length is... %x\n", length);
+		checksum=calc_checksum(length, buf, 1);
+//		printf("-----checksum verify(have to ffff): %x\n", checksum);
+//		printf("\n");
+		printf("eeere\n");
+		if (checksum!=0xffff){
+			printf("checksum error!!!\n");			
+			free(msg);
+			close(c_sock);
+			exit(0);
+		}
 
 		printf("%s", buf+8);
 		free(msg);
@@ -229,7 +191,36 @@ int main(int argc, char **argv){
 	
 	exit(0);
 }
-unsigned short calc_checksum(unsigned length, const char *buf)
+
+unsigned short calc_checksum(unsigned size, const char *buf, int verify)
+{
+	unsigned sum = 0;
+	int i;
+
+	/* Accumulate checksum */
+	for (i = 0; i < size - 1; i += 2)
+	{
+		unsigned short word16 = *(unsigned short *) &buf[i];
+		sum += word16;
+	}
+
+	/* Handle odd-sized case */
+	if (size & 1)
+	{
+		unsigned short word16 = (unsigned char) buf[i];
+		sum += word16;
+	}
+
+	/* Fold to get the ones-complement result */
+	while (sum >> 16) sum = (sum & 0xFFFF)+(sum >> 16);
+
+	/* Invert to get the negative in ones-complement arithmetic */
+	if(verify)
+		return sum;
+	else return ~sum;
+}
+
+unsigned short c33alc_checksum(unsigned length, const char *buf, int verify)
 {
 	unsigned long long sum = 0;
 	const unsigned long long *b = (unsigned long long *) buf;
@@ -279,31 +270,30 @@ unsigned short calc_checksum(unsigned length, const char *buf)
 	t4 = t1 >> 16;
 	t3 += t4;
 	if (t3 < t4) t3++;
-
-	return ~t3;
+	
+	if(verify)
+		return t3;
+	else
+		return ~t3;
 }
-unsigned short calc_checksum2(unsigned size, const char *buf)
-{
-	unsigned sum = 0;
-	int i;
-
-	/* Accumulate checksum */
-	for (i = 0; i < size - 1; i += 2)
-	{
-		unsigned short word16 = *(unsigned short *) &buf[i];
-		sum += word16;
-	}
-
-	/* Handle odd-sized case */
-	if (size & 1)
-	{
-		unsigned short word16 = (unsigned char) buf[i];
-		sum += word16;
-	}
-
-	/* Fold to get the ones-complement result */
-	while (sum >> 16) sum = (sum & 0xFFFF)+(sum >> 16);
-
-	/* Invert to get the negative in ones-complement arithmetic */
-	return ~sum;
+void print64(char * input_msg){
+	int i=0;
+	printf("-------msg of this packet\n");
+	printf("addr: ");
+	while(i<8){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<16){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<24){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<32){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<40){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<48){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<56){ printf("%x ", input_msg[i]); i++;} printf("\n");
+	printf("addr: ");
+	while(i<64){ printf("%x ", input_msg[i]); i++;} printf("\n");
 }
+
