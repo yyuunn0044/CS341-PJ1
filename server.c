@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 	memset(&s_addr, 0, sizeof(s_addr)); 
 	s_addr.sin_family = AF_INET;
 	s_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	s_addr.sin_port = htons(atoi(argv[1]));
+	s_addr.sin_port = htons(atoi(argv[2]));
 	state = bind(s_sock, (struct sockaddr *)&s_addr, sizeof(s_addr));
 	if (state == -1){
 		printf("============Bind Error\n");
@@ -63,13 +63,13 @@ int main(int argc, char **argv)
 			exit(0);
 		}
 		
-		input_msg=calloc(10*1000*1000, sizeof(char)); // calloc max size of expected packet
+		input_msg=calloc(10*1000*1000+3, sizeof(char)); // calloc max size of expected packet
 
 		while(1){
-			if (recv(c_sock, input_msg, 10*1000*1000, 0) <= 0) // if server receives EOF, quit receiving packet
+			if (recv(c_sock, input_msg, 10*1000*1000+3, 0) <= 0) // if server receives EOF, quit receiving packet
 				break;
 
-			msg=calloc(10*1000*1000,sizeof(char)); // allocate memory for encrypted/decrypted message
+			msg=calloc(10*1000*1000+3,sizeof(char)); // allocate memory for encrypted/decrypted message
 
 			memcpy(&op, input_msg, 1);        //////////////////////////////////////
 			memcpy(&shift, input_msg+1, 1);   // get op, shift, length from packet//
